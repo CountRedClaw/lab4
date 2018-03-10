@@ -2,25 +2,16 @@ package webapp;
 
 import Entity.GroupEntity;
 import Entity.StudentEntity;
-import Entity.UserEntity;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.ejb.Stateless;
-import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
-
 @Stateless
-public class ExampleEJB {
+public class DatabaseOperationsBean {
 
     @PersistenceContext(unitName = "examplePU")
     private EntityManager entityManager;
@@ -41,6 +32,16 @@ public class ExampleEJB {
         }
     }
 
+    public void updateGroup(String groupName, Integer groupId) {
+        if(StringUtils.isEmpty(groupName)){
+            return;
+        }
+
+        GroupEntity groupEntity = getGroupById(groupId);
+        groupEntity.setName(groupName);
+        entityManager.merge(groupEntity);
+    }
+
     public void createStudent(String studentName, String studentSurname, Integer groupId) {
         if(StringUtils.isEmpty(studentName) && StringUtils.isEmpty(studentSurname)){
             return;
@@ -51,6 +52,19 @@ public class ExampleEJB {
             StudentEntity studentEntity = new StudentEntity(studentName, studentSurname, groupEntity);
             entityManager.persist(studentEntity);
         }
+    }
+
+    public void updateStudent(String studentName, String studentSurname, Integer groupId, Integer studentId) {
+        if(StringUtils.isEmpty(studentName) && StringUtils.isEmpty(studentSurname)){
+            return;
+        }
+        GroupEntity groupEntity = entityManager.find(GroupEntity.class, groupId);
+
+        StudentEntity studentEntity = getStudentById(studentId);
+        studentEntity.setName(studentName);
+        studentEntity.setSurname(studentSurname);
+        studentEntity.setGroup(groupEntity);
+        entityManager.merge(studentEntity);
     }
 
     public void deleteStudent(Integer id) {
@@ -67,8 +81,6 @@ public class ExampleEJB {
 
             entityManager.flush();
             entityManager.clear();
-        } else {
-            System.out.println("пустой");
         }
     }
 
@@ -88,18 +100,11 @@ public class ExampleEJB {
             //entityManager.remove(entityManager.merge(studentEntity));
             entityManager.flush();
             entityManager.clear();
-        } else {
-            System.out.println("пустой");
         }
     }
 
     public List<GroupEntity> getAllStudents(){
         Query query = entityManager.createQuery("from GroupEntity entity order by id");
-        return query.getResultList();
-    }
-
-    public List<UserEntity> getAllUsers(){
-        Query query = entityManager.createQuery("from UserEntity entity");
         return query.getResultList();
     }
 
@@ -123,9 +128,11 @@ public class ExampleEJB {
     }
 
     public StudentEntity getStudentById(Integer id) {
-        Query query = entityManager.createQuery("from StudentEntity where id = :id");
-        query.setParameter("id", id);
-        return (StudentEntity) query.getSingleResult();
+        StudentEntity studentEntity = null;
+        if (id != null) {
+            studentEntity = entityManager.find(StudentEntity.class, id);
+        }
+        return studentEntity;
     }
 
     public List<GroupEntity> getStudentsBy(String groupName, String studentName, String studentSurname) {

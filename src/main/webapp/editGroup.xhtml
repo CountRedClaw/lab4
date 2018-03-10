@@ -11,11 +11,10 @@
 <h:body>
     <h:form>
         <h:panelGrid columns="2">
-            <h:outputText value="Login: "/>
-            <h:inputText value="#{exampleCDI.groupName}" />
+            <h:outputText value="Name: "/>
+            <h:inputText value="#{backingCDI.groupName}" />
 
-            <h:outputText value="Action: "/>
-            <h:commandLink value="Create" action="#{exampleCDI.createGroup(exampleCDI.groupName)}"/>
+            <h:commandLink value="Create" action="#{backingCDI.createGroup(backingCDI.groupName)}"/>
         </h:panelGrid>
     </h:form>
 </h:body>

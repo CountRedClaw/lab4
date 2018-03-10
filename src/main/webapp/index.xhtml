@@ -10,32 +10,34 @@
 </h:head>
 <h:body>
     <h:form>
-        <h:inputText value="#{exampleCDI.groupName}"/>
-        <h:inputText value="#{exampleCDI.studentName}"/>
-        <h:inputText value="#{exampleCDI.studentSurname}"/>
-        <h:commandLink value="Submit" action="#{exampleCDI.search(exampleCDI.groupName, exampleCDI.studentName, exampleCDI.studentSurname)}">
+        <h:inputText value="#{backingCDI.groupName}"/>
+        <h:inputText value="#{backingCDI.studentName}"/>
+        <h:inputText value="#{backingCDI.studentSurname}"/>
+        <h:commandLink value="Search" action="#{backingCDI.search(backingCDI.groupName, backingCDI.studentName, backingCDI.studentSurname)}">
         </h:commandLink>
     </h:form>
 
     <h:form id="list">
         <ul type="none">
-            <ui:repeat value="#{exampleCDI.allStudents}" var="group">
+            <ui:repeat value="#{backingCDI.allStudents}" var="group">
                 <li>
-                    <h:commandLink value="#{group.name}" action="#{exampleCDI.editGroup()}">
+                    <h:commandLink value="#{group.name} " action="#{backingCDI.editGroup()}">
                         <f:param name="groupName" value="#{group.name}"/>
+                        <f:param name="groupId" value="#{group.id}"/>
                     </h:commandLink>
-                    <h:commandLink value="delete" action="#{exampleCDI.deleteGroup(group.id)}">
+                    <h:commandLink value="delete" action="#{backingCDI.deleteGroup(group.id)}">
                         <f:ajax render=":list" />
                     </h:commandLink>
                     <ul type="none">
                         <ui:repeat value="#{group.students}" var="student">
                             <li>
-                                <h:commandLink value="#{student.name} #{student.surname}" action="#{exampleCDI.editStudent()}">
+                                <h:commandLink value="#{student.name} #{student.surname} " action="#{backingCDI.editStudent()}">
                                     <f:param name="studentName" value="#{student.name}"/>
                                     <f:param name="studentSurname" value="#{student.surname}"/>
                                     <f:param name="groupId" value="#{group.id}"/>
+                                    <f:param name="studentId" value="#{student.id}"/>
                                 </h:commandLink>
-                                <h:commandLink value="delete" action="#{exampleCDI.deleteStudent(student.id)}">
+                                <h:commandLink value="delete" action="#{backingCDI.deleteStudent(student.id)}">
                                     <f:ajax render=":list" />
                                 </h:commandLink>
                             </li>
@@ -47,10 +49,10 @@
     </h:form>
 
     <h:form>
-        <h:commandLink value="NEW GROUP" action="#{exampleCDI.postCreateGroup()}">
+        <h:commandLink value="NEW GROUP" action="#{backingCDI.postCreateGroup()}">
         </h:commandLink>
         <span>  </span>
-        <h:commandLink value="NEW STUDENT" action="#{exampleCDI.postCreateStudent()}">
+        <h:commandLink value="NEW STUDENT" action="#{backingCDI.postCreateStudent()}">
         </h:commandLink>
     </h:form>
 </h:body>

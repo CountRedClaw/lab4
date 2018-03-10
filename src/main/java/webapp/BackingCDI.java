@@ -1,7 +1,6 @@
 package webapp;
 
 import Entity.GroupEntity;
-import Entity.UserEntity;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,21 +13,22 @@ import java.util.Map;
 
 @Named
 @SessionScoped
-public class ExampleCDI implements Serializable{
+public class BackingCDI implements Serializable{
 
     private String groupName;
     private String studentName;
     private String studentSurname;
     private Integer groupId;
+    private Integer studentId;
 
     private List<GroupEntity> allStudents;
 
     @EJB
-    private ExampleEJB exampleEJB;
+    private DatabaseOperationsBean databaseOperationsBean;
 
     @PostConstruct
     public void init() {
-        this.allStudents = exampleEJB.getAllStudents();
+        this.allStudents = databaseOperationsBean.getAllStudents();
     }
 
     public Integer getGroupId() {
@@ -69,49 +69,40 @@ public class ExampleCDI implements Serializable{
 
     public List<GroupEntity> getAllStudents(){
         return allStudents;
-        //return exampleEJB.getAllStudents();
-    }
-
-    public List<UserEntity> getAllUsers(){
-        return exampleEJB.getAllUsers();
     }
 
     public void deleteStudent(Integer id) {
-        try {
-            exampleEJB.deleteStudent(id);
+            databaseOperationsBean.deleteStudent(id);
             init();
-        } catch (Exception e) {
-
-        }
     }
 
     public void deleteGroup(Integer id) {
-        try {
-            exampleEJB.deleteGroup(id);
+            databaseOperationsBean.deleteGroup(id);
             init();
-        } catch (Exception e) {
-
-        }
     }
 
     public String editGroup() {
         FacesContext fc = FacesContext.getCurrentInstance();
         Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
         this.groupName = params.get("groupName");
-
-        return "editGroup";
-    }
-
-    public String postCreateGroup() {
-        this.groupName = "";
+        this.groupId = Integer.parseInt(params.get("groupId"));
         return "editGroup";
     }
 
     public String createGroup(String groupName) {
-        exampleEJB.createGroup(groupName);
+        if(groupId != null) {
+            databaseOperationsBean.updateGroup(groupName, groupId);
+        } else {
+            databaseOperationsBean.createGroup(groupName);
+        }
         init();
         clearFields();
         return "index";
+    }
+
+    public String postCreateGroup() {
+        clearFields();
+        return "editGroup";
     }
 
     public String editStudent() {
@@ -120,25 +111,28 @@ public class ExampleCDI implements Serializable{
         this.studentName = params.get("studentName");
         this.studentSurname = params.get("studentSurname");
         this.groupId = Integer.parseInt(params.get("groupId"));
-        return "editStudent";
-    }
-
-    public String postCreateStudent() {
-        this.studentName = "";
-        this.studentSurname = "";
+        this.studentId = Integer.parseInt(params.get("studentId"));
         return "editStudent";
     }
 
     public String createStudent(String studentName, String studentSurname, Integer groupId) {
-
-        exampleEJB.createStudent(studentName, studentSurname, groupId);
+        if(studentId != null) {
+            databaseOperationsBean.updateStudent(studentName, studentSurname, groupId, studentId);
+        } else {
+            databaseOperationsBean.createStudent(studentName, studentSurname, groupId);
+        }
         init();
         clearFields();
         return "index";
     }
 
+    public String postCreateStudent() {
+        clearFields();
+        return "editStudent";
+    }
+
     public void search(String groupName, String studentName, String studentSurname) {
-        this.allStudents = exampleEJB.getStudentsBy(groupName, studentName, studentSurname);
+        this.allStudents = databaseOperationsBean.getStudentsBy(groupName, studentName, studentSurname);
         clearFields();
     }
 
@@ -146,5 +140,7 @@ public class ExampleCDI implements Serializable{
         this.studentName = "";
         this.studentSurname = "";
         this.groupName = "";
+        this.groupId = null;
+        this.studentId = null;
     }
 }

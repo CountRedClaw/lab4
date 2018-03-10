@@ -11,18 +11,17 @@
 <h:body>
     <h:form>
         <h:panelGrid columns="2">
-            <h:outputText value="Login: "/>
-            <h:inputText value="#{exampleCDI.studentName}" />
+            <h:outputText value="Name: "/>
+            <h:inputText value="#{backingCDI.studentName}" />
 
-            <h:outputText value="Password: "/>
-            <h:inputText value="#{exampleCDI.studentSurname}" />
+            <h:outputText value="Surname: "/>
+            <h:inputText value="#{backingCDI.studentSurname}" />
 
-            <h:selectOneMenu value="#{exampleCDI.groupId}">
-                <f:selectItems value="#{exampleCDI.allStudents}" var="group" itemValue="#{group.id}" itemLabel="#{group.name}"/>
+            <h:selectOneMenu value="#{backingCDI.groupId}">
+                <f:selectItems value="#{backingCDI.allStudents}" var="group" itemValue="#{group.id}" itemLabel="#{group.name}"/>
             </h:selectOneMenu>
 
-            <h:outputText value="Action: "/>
-            <h:commandLink value="Create" action="#{exampleCDI.createStudent(exampleCDI.studentName, exampleCDI.studentSurname, exampleCDI.groupId)}"/>
+            <h:commandLink value="Create" action="#{backingCDI.createStudent(backingCDI.studentName, backingCDI.studentSurname, backingCDI.groupId)}"/>
         </h:panelGrid>
     </h:form>
 </h:body>
