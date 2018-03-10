@@ -21,11 +21,6 @@ public class DatabaseOperationsBean {
             return;
         }
 
-        /*GroupEntity groupEntity = entityManager.find(GroupEntity.class, name);
-        if(groupEntity != null){
-            return false;
-        }*/
-
         if (!isGroupExists(name)) {
             GroupEntity groupEntity = new GroupEntity(name);
             entityManager.persist(groupEntity);
@@ -89,15 +84,12 @@ public class DatabaseOperationsBean {
         if (id != null) {
             groupEntity = entityManager.find(GroupEntity.class, id);
 
-            //StudentEntity studentEntity = getStudentById(id);
             System.out.println(groupEntity);
             if (groupEntity == null) {
                 return;
             }
 
             entityManager.remove(groupEntity);
-
-            //entityManager.remove(entityManager.merge(studentEntity));
             entityManager.flush();
             entityManager.clear();
         }
@@ -137,8 +129,6 @@ public class DatabaseOperationsBean {
 
     public List<GroupEntity> getStudentsBy(String groupName, String studentName, String studentSurname) {
         System.out.println(groupName);
-
-
 
         /*from Book b inner join Author a
         where b.id  = a.bookId
