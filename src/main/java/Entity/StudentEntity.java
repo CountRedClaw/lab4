@@ -2,23 +2,34 @@ package Entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
 
+@XmlAccessorType(XmlAccessType.NONE)
 @Entity
-public class StudentEntity {
+public class StudentEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @XmlElement(name = "st_id")
     @Id
     @NotNull
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "st_id")
     private Integer id;
 
+    @XmlElement(name = "st_name")
     @Column(name = "st_name")
     private String name;
 
+    @XmlElement(name = "st_surname")
     @Column(name = "st_surname")
     private String surname;
 
-    @ManyToOne
+    @XmlTransient
+    @ManyToOne()
     @JoinColumn(name = "st_group", referencedColumnName = "gr_id")
     private GroupEntity group;
 

@@ -13,7 +13,13 @@
         <h:inputText value="#{backingCDI.groupName}"/>
         <h:inputText value="#{backingCDI.studentName}"/>
         <h:inputText value="#{backingCDI.studentSurname}"/>
-        <h:commandLink value="Search" action="#{backingCDI.search(backingCDI.groupName, backingCDI.studentName, backingCDI.studentSurname)}">
+        <h:commandLink value="Search " action="#{backingCDI.search(backingCDI.groupName, backingCDI.studentName, backingCDI.studentSurname)}">
+        </h:commandLink>
+        <h:commandLink value="Import " action="#{backingCDI.importList()}">
+            <f:ajax render=":list" />
+        </h:commandLink>
+        <h:commandLink value="Export" action="#{backingCDI.exportList()}">
+            <f:ajax render=":list" />
         </h:commandLink>
     </h:form>
 
@@ -49,10 +55,10 @@
     </h:form>
 
     <h:form>
-        <h:commandLink value="NEW GROUP" action="#{backingCDI.postCreateGroup()}">
+        <h:commandLink value="NEW GROUP" action="#{backingCDI.createNewGroup()}">
         </h:commandLink>
         <span>  </span>
-        <h:commandLink value="NEW STUDENT" action="#{backingCDI.postCreateStudent()}">
+        <h:commandLink value="NEW STUDENT" action="#{backingCDI.createNewStudent()}">
         </h:commandLink>
     </h:form>
 </h:body>

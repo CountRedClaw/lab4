@@ -16,6 +16,10 @@ public class DatabaseOperationsBean {
     @PersistenceContext(unitName = "examplePU")
     private EntityManager entityManager;
 
+    public void persistGroup(GroupEntity groupEntity) {
+        entityManager.persist(groupEntity);
+    }
+
     public void createGroup(String name){
         if(StringUtils.isEmpty(name)){
             return;
@@ -62,10 +66,17 @@ public class DatabaseOperationsBean {
         entityManager.merge(studentEntity);
     }
 
+    public void updateStudent(StudentEntity studentEntity) {
+        entityManager.merge(studentEntity);
+    }
+
     public void deleteStudent(Integer id) {
         StudentEntity studentEntity;
         if (id != null) {
             studentEntity = entityManager.find(StudentEntity.class, id);
+
+            GroupEntity groupEntity = studentEntity.getGroup();
+            groupEntity.getStudents().remove(studentEntity);
 
             System.out.println(studentEntity);
             if (studentEntity == null) {
@@ -73,7 +84,6 @@ public class DatabaseOperationsBean {
             }
 
             entityManager.remove(studentEntity);
-
             entityManager.flush();
             entityManager.clear();
         }
@@ -103,6 +113,12 @@ public class DatabaseOperationsBean {
     public boolean isGroupExists(String name) {
         Query query = entityManager.createQuery("select count(*) from GroupEntity where name like :name");
         query.setParameter("name", name);
+        return (Long) query.getSingleResult() > 0;
+    }
+
+    public boolean isGroupExists(Integer grid) {
+        Query query = entityManager.createQuery("select count(*) from GroupEntity where id = :grid");
+        query.setParameter("grid", grid);
         return (Long) query.getSingleResult() > 0;
     }
 
