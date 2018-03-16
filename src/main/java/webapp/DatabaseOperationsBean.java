@@ -145,65 +145,6 @@ public class DatabaseOperationsBean {
 
     public List<GroupEntity> getStudentsBy(String groupName, String studentName, String studentSurname) {
         System.out.println(groupName);
-
-        /*from Book b inner join Author a
-        where b.id  = a.bookId
-        and a.lastname = :ln
-        and a.firstname = :fn*/
-
-        /*Query query = entityManager.createQuery("from GroupEntity g inner join g.students s " +
-                                                    "where g.id = s.group.id " +
-                                                    "and s.name like :studentName");
-        //query.setParameter("groupName", groupName);
-        query.setParameter("studentName", studentName);*/
-
-        //query.setParameter("groupName", groupName);
-        //query.setParameter("studentName", studentName);
-
-        /*from Book b inner join Author a
-        where b.id  = a.bookId
-        and a.lastname = :ln
-        and a.firstname = :fn*/
-
-        /*Query query = entityManager.createQuery("from GroupEntity g inner join g.students s " +
-                                                    //"where g.id = s.group.id ");// +
-                                                    "where s.name like :studentName");
-        //query.setParameter("groupName", groupName);
-        query.setParameter("studentName", studentName);*/
-
-        /*Query query = entityManager.createQuery("select g from GroupEntity g left outer join g.students s " +
-                "where s.name like :studentName");
-        query.setParameter("studentName", studentName);*/
-
-        /*Configuration cfg = new Configuration();
-        SessionFactory sessionFactory = cfg.configure().buildSessionFactory();
-        Session session = sessionFactory.openSession();*/
-/*
-        List<GroupEntity> list = new ArrayList<GroupEntity>();
-
-        try {
-            session.beginTransaction();
-            Criteria criteria = session.createCriteria(GroupEntity.class);
-            criteria.add(Restrictions.eq("name", groupName));
-            criteria.createAlias("students", "child");
-            criteria.add(Restrictions.eq("child.name", studentName).ignoreCase());
-
-            list = criteria.list();
-
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-            sessionFactory.close();
-        }*/
-
-        /*Query query = entityManager.createQuery("select g from GroupEntity g join fetch g.students s " +
-                                                    "where s.name like :studentName and g.name like :groupName");
-        query.setParameter("groupName", groupName);
-        query.setParameter("studentName", studentName);*/
-
         if (groupName.equals("") && studentName.equals("") && studentSurname.equals("")) {
             return getAllStudents();
         }
@@ -211,24 +152,6 @@ public class DatabaseOperationsBean {
         groupName = (groupName.equals("")) ? "%" : groupName;
         studentName = (studentName.equals("")) ? "%" : studentName;
         studentSurname = (studentSurname.equals("")) ? "%" :studentSurname;
-
-         /*else if (groupName.equals("")) {
-            Query query = entityManager.createQuery("select g from GroupEntity g join fetch g.students s " +
-                    "where s.name like :studentName and g.name like :groupName");
-            query.setParameter("studentName", studentName);
-            return query.getResultList();
-        } else if (studentName.equals("")) {
-            Query query = entityManager.createQuery("select g from GroupEntity g join fetch g.students s " +
-                    "where s.name like :studentName and g.name like :groupName");
-            query.setParameter("groupName", groupName);
-            return query.getResultList();
-
-            /*org.hibernate.Query query = session.createSQLQuery(
-                    "select * from groupentity p join (select * from studententity where studententity.st_name like :studentName) c on p.gr_id = c.st_group where p.gr_name like :groupName")
-                    .addEntity(GroupEntity.class)
-                    .setParameter("groupName", groupName)
-                    .setParameter("studentName", studentName);
-            List result = query.list();*/
 
         Query query = entityManager.createQuery("select distinct g from GroupEntity g join fetch g.students s " +
                                                     "where s.name like :studentName and s.surname like :studentSurname and g.name like :groupName");

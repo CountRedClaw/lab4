@@ -1,0 +1,56 @@
+#feedback-form {
+    width: 200px;
+    margin: 0 auto;
+    padding: 20px 50px 40px;
+}
+
+#feedback-form * {
+    box-sizing: border-box;
+}
+
+#feedback-form h2{
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h3 {
+    width: 190px;
+    padding-left: 10px;
+}
+
+.button {
+    font-weight: 700;
+    color: white;
+    width: 30px;
+    text-decoration: none;
+    padding: 7px;
+    padding-right: 25px;
+    padding-left: 7px;
+    border-radius: 45px;
+    background: #37453c;
+    transition: -12.8s;
+    margin: 10px 21px;
+    display: inline-block;
+}
+.search:hover { background: #a08472; }
+.search:active {
+    background: #a08472;
+}
+
+.buttonG {
+    padding-right: 55px;
+}
+
+#feedback-form input[type=text], select {
+    margin-bottom: 15px;
+    display: block;
+    height: 32px;
+    padding: 6px 16px;
+    width: 100%;
+    border: none;
+    background-color: #f3f3f3;
+}
+
+select {
+    width: 112px;
+}

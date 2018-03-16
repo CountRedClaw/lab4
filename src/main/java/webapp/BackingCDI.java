@@ -23,6 +23,8 @@ public class BackingCDI implements Serializable{
     private Integer groupId;
     private Integer studentId;
 
+    private String labelValue;
+
     private List<GroupEntity> allStudents;
 
     @EJB
@@ -74,6 +76,14 @@ public class BackingCDI implements Serializable{
 
     public List<GroupEntity> getAllStudents(){
         return allStudents;
+    }
+
+    public String getLabelValue() {
+        return labelValue;
+    }
+
+    public void setLabelValue(String labelValue) {
+        this.labelValue = labelValue;
     }
 
     public void deleteStudent(Integer id) {
@@ -137,7 +147,7 @@ public class BackingCDI implements Serializable{
     }
 
     public void search(String groupName, String studentName, String studentSurname) {
-        this.allStudents = databaseOperationsBean.getStudentsBy(groupName, studentName, studentSurname);
+        allStudents = databaseOperationsBean.getStudentsBy(groupName, studentName, studentSurname);
         clearFields();
     }
 
@@ -147,10 +157,18 @@ public class BackingCDI implements Serializable{
         this.groupName = "";
         this.groupId = null;
         this.studentId = null;
+        this.labelValue = "";
     }
 
     public void importList() {
-        ListWrapper listWrapper = marshallingBean.readFromXML();
+        this.labelValue = "";
+        ListWrapper listWrapper = new ListWrapper();
+        try {
+            listWrapper = marshallingBean.readFromXML();
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.labelValue = "File is not correct";
+        }
         List<GroupEntity> result = listWrapper.getGroups();
         if (result == null) {
             return;
@@ -179,5 +197,9 @@ public class BackingCDI implements Serializable{
 
     public void exportList() {
         marshallingBean.saveToXML(allStudents);
+    }
+
+    public void updateList() {
+        allStudents = databaseOperationsBean.getAllStudents();
     }
 }

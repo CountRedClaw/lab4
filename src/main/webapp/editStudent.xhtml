@@ -6,11 +6,12 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-
+    <h:outputStylesheet library="common" name="css/main.css"/>
+    <h:outputStylesheet library="common" name="css/form.css"/>
 </h:head>
 <h:body>
     <h:form>
-        <h:panelGrid columns="2">
+        <div class="container">
             <h:outputText value="Name: "/>
             <h:inputText value="#{backingCDI.studentName}" />
 
@@ -21,8 +22,8 @@
                 <f:selectItems value="#{backingCDI.allStudents}" var="group" itemValue="#{group.id}" itemLabel="#{group.name}"/>
             </h:selectOneMenu>
 
-            <h:commandLink value="Create" action="#{backingCDI.createStudent(backingCDI.studentName, backingCDI.studentSurname, backingCDI.groupId)}"/>
-        </h:panelGrid>
+            <h:commandLink styleClass="button" value="Create" action="#{backingCDI.createStudent(backingCDI.studentName, backingCDI.studentSurname, backingCDI.groupId)}"/>
+        </div>
     </h:form>
 </h:body>
 </html>

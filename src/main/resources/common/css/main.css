@@ -1,0 +1,156 @@
+@font-face{
+    font-family: 'VerlagBlack';
+    src: url('#{resource['common:fonts/VerlagBlack.otf']}');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: VerlagBlack;
+    color: #37453c;
+}
+
+body {
+    font-family: VerlagBlack;
+    background-color: #e6c461;
+    color: #37453c;
+}
+
+h1 {
+    font-family: VerlagBlack;
+}
+
+.container {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+}
+
+.container .bottomForm {
+    margin: 50px;
+    position: relative;
+}
+
+ul {
+    margin: 5px 20px 5px 0px;
+}
+
+h1 {
+    font-size: 50px;
+    margin-bottom: -10px;
+}
+
+h2 {
+    font-size: 20px;
+    display: inline-block;
+    padding: 0 15px;
+    position: relative;
+}
+
+h2:before,
+h2:after {
+    background: #37453c;
+    content: "";
+    display: block;
+    height: 3px;
+    position: absolute;
+    top: 40%;
+    width: 30px;
+}
+h2:before {
+    right: 95%;
+}
+h2:after {
+    left: 95%;
+}
+
+li {
+    font-size: 18px;
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+li a {
+    margin-left: 10px;
+}
+
+form > ul > li {
+    border-left: #37453c 3px solid;
+}
+
+.fa-circle:before {
+    font-size: 10px;
+    position: absolute;
+    bottom: 4px;
+    right: 120px;
+}
+
+i.fa.fa-circle {
+    margin-right: 7px;
+}
+
+form input {
+    height: 20px;
+    width: 80px;
+    padding: 5px 16px;
+    border: none;
+    background-color: #f3f3f3;
+    margin: 5px;
+}
+
+form button {
+    margin: 20px auto 0;
+    width: 100px;
+    height: 33px;
+    border-radius: 76px;
+    border: none;
+    margin-left: 10px;
+    color: #eee;
+    font-weight: 700;
+    background-color: #37453c;
+}
+
+#list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.button {
+    font-weight: 700;
+    color: white;
+    width: 30px;
+    text-decoration: none;
+    padding: 8px 18px;
+    padding-right: 31px;
+    border-radius: 45px;
+    background: #37453c;
+    transition: -12.8s;
+    margin: 10px 21px;
+    display: inline-block;
+}
+.search:hover { background: #a08472; }
+.search:active {
+    background: #a08472;
+}
+
+.wrapper {
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.smiledBcg {
+    width: 118px;
+    height: 100px;
+    background-image: url('#{resource['common:images/smile.png']}');
+    background-size: 20px 20px;
+    background-color: white;
+}
+
+table{
+    margin: auto;
+    margin-top: -10px;
+}

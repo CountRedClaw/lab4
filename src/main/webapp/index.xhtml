@@ -4,62 +4,96 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
 <h:head>
+    <title>The List Of Groups Of Students</title>
+    <h:outputStylesheet library="common" name="css/main.css"/>
+    <h:outputStylesheet library="webjars" name="font-awesome/4.6.3/css/font-awesome-jsf.css"/>
 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function() {
+            $('#myObj').click(function() {
+                var back = ["#30122d","#870734","#cb2d3e","#ef473a","#ffd6bf"];
+                var rand = back[Math.floor(Math.random() * back.length)];
+                $('.smiledBcg').css('background-color', rand);
+            });
+        });
+    </script>
 </h:head>
-<h:body>
-    <h:form>
-        <h:inputText value="#{backingCDI.groupName}"/>
-        <h:inputText value="#{backingCDI.studentName}"/>
-        <h:inputText value="#{backingCDI.studentSurname}"/>
-        <h:commandLink value="Search " action="#{backingCDI.search(backingCDI.groupName, backingCDI.studentName, backingCDI.studentSurname)}">
-        </h:commandLink>
-        <h:commandLink value="Import " action="#{backingCDI.importList()}">
-            <f:ajax render=":list" />
-        </h:commandLink>
-        <h:commandLink value="Export" action="#{backingCDI.exportList()}">
-            <f:ajax render=":list" />
-        </h:commandLink>
-    </h:form>
+<h:body id="myObj">
+        <table>
+            <tr>
+                <td class="smiledBcg">
+                </td>
+                <td>
+                    <div class="container">
+                        <h1>THE LIST</h1>
+                        <h2>OF GROUPS</h2>
+                        <h:form>
+                            <h:inputText a:placeholder="Group" value="#{backingCDI.groupName}"/>
+                            <h:inputText a:placeholder="Name" value="#{backingCDI.studentName}"/>
+                            <h:inputText a:placeholder="Surname" value="#{backingCDI.studentSurname}"/>
+                            <div>
+                            <h:commandLink styleClass="button" value="Search " action="#{backingCDI.search(backingCDI.groupName, backingCDI.studentName, backingCDI.studentSurname)}">
+                                <f:ajax execute="@form" render=":list"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="button" value="Import " action="#{backingCDI.importList()}">
+                                <f:ajax render=":list"/>
+                            </h:commandLink>
+                            <h:commandLink styleClass="button" value="Export" action="#{backingCDI.exportList()}">
+                                <f:ajax/>
+                            </h:commandLink>
+                            </div>
+                        </h:form>
 
-    <h:form id="list">
-        <ul type="none">
-            <ui:repeat value="#{backingCDI.allStudents}" var="group">
-                <li>
-                    <h:commandLink value="#{group.name} " action="#{backingCDI.editGroup()}">
-                        <f:param name="groupName" value="#{group.name}"/>
-                        <f:param name="groupId" value="#{group.id}"/>
-                    </h:commandLink>
-                    <h:commandLink value="delete" action="#{backingCDI.deleteGroup(group.id)}">
-                        <f:ajax render=":list" />
-                    </h:commandLink>
-                    <ul type="none">
-                        <ui:repeat value="#{group.students}" var="student">
-                            <li>
-                                <h:commandLink value="#{student.name} #{student.surname} " action="#{backingCDI.editStudent()}">
-                                    <f:param name="studentName" value="#{student.name}"/>
-                                    <f:param name="studentSurname" value="#{student.surname}"/>
-                                    <f:param name="groupId" value="#{group.id}"/>
-                                    <f:param name="studentId" value="#{student.id}"/>
-                                </h:commandLink>
-                                <h:commandLink value="delete" action="#{backingCDI.deleteStudent(student.id)}">
-                                    <f:ajax render=":list" />
-                                </h:commandLink>
-                            </li>
-                        </ui:repeat>
-                    </ul>
-                </li>
-            </ui:repeat>
-        </ul>
-    </h:form>
+                        <h:form id="list">
+                            <h:outputLabel value="#{backingCDI.labelValue}"></h:outputLabel>
+                            <ul type="none">
+                                <ui:repeat value="#{backingCDI.allStudents}" var="group">
+                                    <li>
+                                        <h:commandLink value="#{group.name} " action="#{backingCDI.editGroup()}">
+                                            <f:param name="groupName" value="#{group.name}"/>
+                                            <f:param name="groupId" value="#{group.id}"/>
+                                        </h:commandLink>
+                                        <h:commandLink action="#{backingCDI.deleteGroup(group.id)}">
+                                            <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                            <f:ajax render=":list" />
+                                        </h:commandLink>
+                                        <ul type="none">
+                                            <ui:repeat value="#{group.students}" var="student">
+                                                <li>
+                                                    <h:commandLink value="#{student.name} #{student.surname} " action="#{backingCDI.editStudent()}">
+                                                        <f:param name="studentName" value="#{student.name}"/>
+                                                        <f:param name="studentSurname" value="#{student.surname}"/>
+                                                        <f:param name="groupId" value="#{group.id}"/>
+                                                        <f:param name="studentId" value="#{student.id}"/>
+                                                    </h:commandLink>
+                                                    <h:commandLink action="#{backingCDI.deleteStudent(student.id)}">
+                                                        <i class="fa fa-minus-circle" aria-hidden="true"></i>
+                                                        <f:ajax render=":list" />
+                                                    </h:commandLink>
+                                                </li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </li>
+                                </ui:repeat>
+                            </ul>
+                        </h:form>
 
-    <h:form>
-        <h:commandLink value="NEW GROUP" action="#{backingCDI.createNewGroup()}">
-        </h:commandLink>
-        <span>  </span>
-        <h:commandLink value="NEW STUDENT" action="#{backingCDI.createNewStudent()}">
-        </h:commandLink>
-    </h:form>
+                        <h:form styleClass="bottomForm">
+                            <h:commandLink value="NEW GROUP" action="#{backingCDI.createNewGroup()}">
+                            </h:commandLink>
+                            <i class="fa fa-circle" aria-hidden="true"></i>
+                            <h:commandLink value="NEW STUDENT" action="#{backingCDI.createNewStudent()}">
+                            </h:commandLink>
+                        </h:form>
+                    </div>
+                </td>
+                <td class="smiledBcg">
+                </td>
+            </tr>
+        </table>
 </h:body>
 </html>

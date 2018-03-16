@@ -6,16 +6,21 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-
+    <h:outputStylesheet library="common" name="css/main.css"/>
+    <h:outputStylesheet library="common" name="css/form.css"/>
 </h:head>
 <h:body>
-    <h:form>
-        <h:panelGrid columns="2">
-            <h:outputText value="Name: "/>
-            <h:inputText value="#{backingCDI.groupName}" />
+    <div id="feedback-form">
+        <h3>ENTER THE NAME</h3>
+        <h3>OF NEW GROUP</h3>
+        <h:form>
+            <div class="container">
+                <h:outputText value="Name: "/>
+                <h:inputText value="#{backingCDI.groupName}" />
 
-            <h:commandLink value="Create" action="#{backingCDI.createGroup(backingCDI.groupName)}"/>
-        </h:panelGrid>
-    </h:form>
+                <h:commandLink styleClass="button buttonG" value="Create" action="#{backingCDI.createGroup(backingCDI.groupName)}"/>
+            </div>
+        </h:form>
+    </div>
 </h:body>
 </html>
