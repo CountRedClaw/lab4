@@ -22,7 +22,7 @@ public class MarshallingBean {
             JAXBContext context = JAXBContext.newInstance(ListWrapper.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            File file = new File("C:\\file.xml");
+            File file = new File("file.xml");
             marshaller.marshal(listWrapper, file);
         } catch (JAXBException exception) {
             exception.printStackTrace();
@@ -33,17 +33,18 @@ public class MarshallingBean {
         ListWrapper listWrapper;
         JAXBContext context = JAXBContext.newInstance(ListWrapper.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
-        File file = new File("C:\\file.xml");
-        File xsd = new File("C:\\xsd.xsd");
 
+        File file = new File("file.xml");                   // xml храним на сервере
+        InputStream xsd = getClass().getClassLoader().getResourceAsStream("/misc/xsd.xsd"); // xsd храним в WEB_INF
         isCorrect(file, xsd);
+
         listWrapper = (ListWrapper) unmarshaller.unmarshal(file);
         return listWrapper;
     }
 
-    public static void isCorrect(File xml, File xsd) throws SAXException, IOException {
+    public static void isCorrect(File xml, InputStream xsd) throws SAXException, IOException {
         SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI)
-                .newSchema(xsd)
+                .newSchema(new StreamSource(xsd))
                 .newValidator()
                 .validate(new StreamSource(xml));
     }

@@ -175,6 +175,7 @@ public class BackingCDI implements Serializable{
         }
         for (GroupEntity temp : result) {
             if (!databaseOperationsBean.isGroupExists(temp.getId())) {
+                System.out.println("не существует");
                 temp.setId(null);
 
                 for (int i = 0; i < temp.getStudents().size(); i++) {
@@ -183,6 +184,7 @@ public class BackingCDI implements Serializable{
                 }
                 databaseOperationsBean.persistGroup(temp);
             } else {
+                System.out.println("уже существует");
                 for (int i = 0; i < temp.getStudents().size(); i++) {
                     temp.getStudents().get(i).setGroup(temp);
                     databaseOperationsBean.updateStudent(temp.getStudents().get(i));
