@@ -51,7 +51,7 @@
                         <h:form id="list">
                             <h:outputLabel value="#{backingCDI.labelValue}"></h:outputLabel>
                             <ul type="none">
-                                <ui:repeat value="#{backingCDI.allStudents}" var="group">
+                                <ui:repeat value="#{backingCDI.allGroupsStudents}" var="group">
                                     <li>
                                         <h:commandLink value="#{group.name} " action="#{backingCDI.editGroup()}">
                                             <f:param name="groupName" value="#{group.name}"/>

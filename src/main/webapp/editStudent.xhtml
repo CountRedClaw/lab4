@@ -19,7 +19,7 @@
             <h:inputText value="#{backingCDI.studentSurname}" />
 
             <h:selectOneMenu value="#{backingCDI.groupId}">
-                <f:selectItems value="#{backingCDI.allStudents}" var="group" itemValue="#{group.id}" itemLabel="#{group.name}"/>
+                <f:selectItems value="#{backingCDI.allGroupsStudents}" var="group" itemValue="#{group.id}" itemLabel="#{group.name}"/>
             </h:selectOneMenu>
 
             <h:commandLink styleClass="button" value="Create" action="#{backingCDI.createStudent(backingCDI.studentName, backingCDI.studentSurname, backingCDI.groupId)}"/>

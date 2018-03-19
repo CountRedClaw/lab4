@@ -25,7 +25,7 @@ public class BackingCDI implements Serializable{
 
     private String labelValue;
 
-    private List<GroupEntity> allStudents;
+    private List<GroupEntity> allGroupsStudents;
 
     @EJB
     private DatabaseOperationsBean databaseOperationsBean;
@@ -35,7 +35,7 @@ public class BackingCDI implements Serializable{
 
     @PostConstruct
     public void init() {
-        this.allStudents = databaseOperationsBean.getAllStudents();
+        this.allGroupsStudents = databaseOperationsBean.getAllGroupsStudents();
     }
 
     public Integer getGroupId() {
@@ -70,12 +70,12 @@ public class BackingCDI implements Serializable{
         this.studentSurname = studentSurname;
     }
 
-    public void setAllStudents(List<GroupEntity> allStudents) {
-        this.allStudents = allStudents;
+    public void setAllGroupsStudents(List<GroupEntity> allGroupsStudents) {
+        this.allGroupsStudents = allGroupsStudents;
     }
 
-    public List<GroupEntity> getAllStudents(){
-        return allStudents;
+    public List<GroupEntity> getAllGroupsStudents(){
+        return allGroupsStudents;
     }
 
     public String getLabelValue() {
@@ -147,7 +147,7 @@ public class BackingCDI implements Serializable{
     }
 
     public void search(String groupName, String studentName, String studentSurname) {
-        allStudents = databaseOperationsBean.getStudentsBy(groupName, studentName, studentSurname);
+        allGroupsStudents = databaseOperationsBean.getStudentsBy(groupName, studentName, studentSurname);
         clearFields();
     }
 
@@ -175,7 +175,6 @@ public class BackingCDI implements Serializable{
         }
         for (GroupEntity temp : result) {
             if (!databaseOperationsBean.isGroupExists(temp.getId())) {
-                System.out.println("не существует");
                 temp.setId(null);
 
                 for (int i = 0; i < temp.getStudents().size(); i++) {
@@ -184,7 +183,6 @@ public class BackingCDI implements Serializable{
                 }
                 databaseOperationsBean.persistGroup(temp);
             } else {
-                System.out.println("уже существует");
                 for (int i = 0; i < temp.getStudents().size(); i++) {
                     temp.getStudents().get(i).setGroup(temp);
                     databaseOperationsBean.updateStudent(temp.getStudents().get(i));
@@ -192,14 +190,14 @@ public class BackingCDI implements Serializable{
                 databaseOperationsBean.updateGroup(temp.getName(), temp.getId());
             }
         }
-        allStudents = databaseOperationsBean.getAllStudents();
+        allGroupsStudents = databaseOperationsBean.getAllGroupsStudents();
     }
 
     public void exportList() {
-        marshallingBean.saveToXML(allStudents);
+        marshallingBean.saveToXML(allGroupsStudents);
     }
 
     public void updateList() {
-        allStudents = databaseOperationsBean.getAllStudents();
+        allGroupsStudents = databaseOperationsBean.getAllGroupsStudents();
     }
 }

@@ -105,7 +105,7 @@ public class DatabaseOperationsBean {
         }
     }
 
-    public List<GroupEntity> getAllStudents(){
+    public List<GroupEntity> getAllGroupsStudents(){
         Query query = entityManager.createQuery("from GroupEntity entity order by id");
         return query.getResultList();
     }
@@ -146,7 +146,7 @@ public class DatabaseOperationsBean {
     public List<GroupEntity> getStudentsBy(String groupName, String studentName, String studentSurname) {
         System.out.println(groupName);
         if (groupName.equals("") && studentName.equals("") && studentSurname.equals("")) {
-            return getAllStudents();
+            return getAllGroupsStudents();
         }
 
         groupName = (groupName.equals("")) ? "%" : groupName;
@@ -154,7 +154,7 @@ public class DatabaseOperationsBean {
         studentSurname = (studentSurname.equals("")) ? "%" :studentSurname;
 
         Query query = entityManager.createQuery("select distinct g from GroupEntity g join fetch g.students s " +
-                                                    "where s.name like :studentName and s.surname like :studentSurname and g.name like :groupName");
+                                                   "where s.name like :studentName and s.surname like :studentSurname and g.name like :groupName");
         query.setParameter("groupName", groupName);
         query.setParameter("studentName", studentName);
         query.setParameter("studentSurname", studentSurname);

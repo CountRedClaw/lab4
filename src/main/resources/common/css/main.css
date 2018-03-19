@@ -130,8 +130,8 @@ form button {
     margin: 10px 21px;
     display: inline-block;
 }
-.search:hover { background: #a08472; }
-.search:active {
+.button:hover { background: #a08472; }
+.button:active {
     background: #a08472;
 }
 
